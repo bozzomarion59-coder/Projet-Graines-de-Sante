@@ -1,0 +1,185 @@
+FICHE EXPLICATIVE :
+
+-- Créer la nouvelle base
+CREATE DATABASE gluten_free_recipes;
+USE gluten_free_recipes;
+
+-- Table des utilisateurs
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    email_user VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    pseudo_user VARCHAR(100) NOT NULL,
+    role_user ENUM('user','admin') NOT NULL DEFAULT 'user',
+    create_at_user DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table des catégories
+CREATE TABLE categories_recipes (
+    id_categorie INT AUTO_INCREMENT PRIMARY KEY,
+    name_categorie ENUM('entree','plat','dessert','boisson') NOT NULL UNIQUE
+);
+
+-- Table des recettes
+CREATE TABLE recipes ( id_recipe INT AUTO_INCREMENT PRIMARY KEY, categorie_id INT NOT NULL, title_recipe VARCHAR(255) NOT NULL UNIQUE, description TEXT NOT NULL, instructions TEXT NOT NULL, image_png VARCHAR(255) NOT NULL, preparation_time INT NOT NULL, cooking_time INT NULL, create_at_recipe DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table des ingrédients
+CREATE TABLE ingredients (
+    id_ingredient INT AUTO_INCREMENT PRIMARY KEY,
+    name_ingredient VARCHAR(255) NOT NULL
+);
+
+-- Table d’association recette/ingrédients
+CREATE TABLE recipe_ingredients (
+    recipe_id INT NOT NULL,
+    ingredient_id INT NOT NULL,
+    quantity VARCHAR(255) NOT NULL,
+    PRIMARY KEY (recipe_id, ingredient_id)
+);
+
+-- Table des favoris
+CREATE TABLE favorites (
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    PRIMARY KEY (user_id, recipe_id)
+);
+
+-- Table des notes
+CREATE TABLE ratings (
+    id_rating INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    value INT NOT NULL CHECK (value BETWEEN 1 AND 5),
+    create_at_rating DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table des commentaires
+CREATE TABLE comments (
+    id_comment INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    recipe_id INT NOT NULL,
+    content TEXT NOT NULL,
+    create_at_comment DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Recettes liées aux catégories
+ALTER TABLE recipes
+ADD CONSTRAINT fk_recipe_categorie
+FOREIGN KEY (categorie_id) REFERENCES categories_recipes(id_categorie)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Favoris liés aux utilisateurs
+ALTER TABLE favorites
+ADD CONSTRAINT fk_favorite_user
+FOREIGN KEY (user_id) REFERENCES users(id_user)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Favoris liés aux recettes
+ALTER TABLE favorites
+ADD CONSTRAINT fk_favorite_recipe
+FOREIGN KEY (recipe_id) REFERENCES recipes(id_recipe)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Notes liées aux utilisateurs
+ALTER TABLE ratings
+ADD CONSTRAINT fk_rating_user
+FOREIGN KEY (user_id) REFERENCES users(id_user)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Notes liées aux recettes
+ALTER TABLE ratings
+ADD CONSTRAINT fk_rating_recipe
+FOREIGN KEY (recipe_id) REFERENCES recipes(id_recipe)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Commentaires liés aux utilisateurs
+ALTER TABLE comments
+ADD CONSTRAINT fk_comment_user
+FOREIGN KEY (user_id) REFERENCES users(id_user)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Commentaires liés aux recettes
+ALTER TABLE comments
+ADD CONSTRAINT fk_comment_recipe
+FOREIGN KEY (recipe_id) REFERENCES recipes(id_recipe)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Table d’association recette/ingrédients
+ALTER TABLE recipe_ingredients
+ADD CONSTRAINT fk_recipeingredient_recipe
+FOREIGN KEY (recipe_id) REFERENCES recipes(id_recipe)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE recipe_ingredients
+ADD CONSTRAINT fk_recipeingredient_ingredient
+FOREIGN KEY (ingredient_id) REFERENCES ingredients(id_ingredient)
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- Insertion des catégories par défaut 
+INSERT INTO categories_recipes (name_categorie) VALUES ('entree'), ('plat'), ('dessert'), (‘boisson');
+
+-- Insertion d’utilisateurs :
+INSERT INTO users (email_user, password_hash, pseudo_user, role_user) VALUES ('marion@example.com', 'hash0', 'MarionDev', 'user'), ('alice@example.com', 'hash1', 'AliceDev', 'user'), ('bob@example.com', 'hash2', 'BobCoder', 'user'), ('charlie@example.com', 'hash3', 'CharlieUX', 'user'), ('diana@example.com', 'hash4', 'DianaChef', 'user'), ('eric@example.com', 'hash5', 'EricSQL', 'user'), ('fiona@example.com', 'hash6', 'FionaReact', 'user'), ('george@example.com', 'hash7', 'GeorgeNode', 'user'), ('hannah@example.com', 'hash8', 'HannahTest', 'user'), ('ivan@example.com', 'hash9', 'IvanDesign', 'user'), ('julia@example.com', 'hash10', 'JuliaAdmin', 'admin');
+
+-- Insertion de recettes entrée :
+INSERT INTO recipes (categorie_id, title_recipe, description, instructions, image_png, preparation_time, cooking_time) VALUES (1, 'Salade de tomates et mozzarella', 'Entrée fraîche et légère', 'Couper tomates et mozzarella, ajouter basilic et huile d\'olive.', 'salade_tomates_mozza.png', 10, NULL), (1, 'Œufs mimosa', 'Classique rapide et économique', 'Cuire les œufs, mélanger les jaunes avec mayonnaise et moutarde, garnir.', 'oeufs_mimosa.png', 15, 10), (1, 'Carottes râpées citronnées', 'Entrée croquante et vitaminée', 'Râper les carottes, ajouter jus de citron, huile d\'olive et persil.', 'carottes_rape.png', 10, NULL), (1, 'Guacamole express', 'Entrée fraîche à base d\'avocat', 'Écraser les avocats, ajouter jus de citron, sel et poivre.', 'guacamole.png', 8, NULL), (1, 'Salade de concombre au yaourt', 'Entrée légère et rafraîchissante', 'Couper le concombre, mélanger avec yaourt, ail et menthe.', 'salade_concombre.png', 10, NULL), (1, 'Velouté de courgettes', 'Soupe simple et douce', 'Cuire les courgettes avec oignon et bouillon, mixer, ajouter crème.', 'veloute_courgettes.png', 20, 15), (1, 'Tartare de tomates et poivrons', 'Entrée colorée et savoureuse', 'Couper tomates et poivrons en dés, assaisonner avec huile et vinaigre.', 'tartare_tomates_poivrons.png', 12, NULL), (1, 'Œufs durs mayonnaise légère', 'Entrée simple et rapide', 'Cuire les œufs, servir avec mayonnaise sans gluten et ciboulette.', 'oeufs_durs_mayo.png', 15, 10), (1, 'Salade de betteraves et noix', 'Entrée sucrée-salée', 'Couper les betteraves, ajouter noix, assaisonner avec huile et vinaigre.', 'salade_betteraves.png', 10, NULL), (1, 'Houmous maison', 'Entrée végétarienne et protéinée', 'Mixer pois chiches, tahini, citron et ail, servir avec crudités.', 'houmous.png', 15, NULL);
+
+-- Insertion de recettes plats :
+INSERT INTO recipes (categorie_id, title_recipe, description, instructions, image_png, preparation_time, cooking_time) VALUES (2, 'Riz sauté aux légumes', 'Plat simple et équilibré', 'Cuire le riz, faire revenir légumes, mélanger.', 'riz_legumes.png', 15, 15), (2, 'Poulet rôti aux herbes', 'Plat familial économique', 'Assaisonner le poulet, rôtir au four.', 'poulet_roti.png', 10, 45), (2, 'Omelette aux champignons', 'Plat rapide et protéiné', 'Battre les œufs, ajouter champignons, cuire.', 'omelette_champignons.png', 10, 10), (2, 'Poisson grillé citronné', 'Plat léger et parfumé', 'Griller le poisson, arroser de citron.', 'poisson_grille.png', 10, 15), (2, 'Salade de quinoa', 'Plat frais et nourrissant', 'Cuire quinoa, mélanger légumes et assaisonnement.', 'salade_quinoa.png', 15, 15), (2, 'Pâtes de riz sauce tomate', 'Alternative sans gluten aux pâtes', 'Cuire pâtes de riz, ajouter sauce tomate.', 'pates_riz.png', 10, 12), (2, 'Galettes de pommes de terre', 'Plat croustillant et économique', 'Râper pommes de terre, former galettes, cuire.', 'galettes_pdt.png', 15, 20), (2, 'Curry de pois chiches', 'Plat végétarien parfumé', 'Faire revenir pois chiches avec épices et lait coco.', 'curry_pois_chiches.png', 15, 25), (2, 'Soupe de lentilles corail', 'Plat réconfortant et nutritif', 'Cuire lentilles avec légumes et épices, mixer.', 'soupe_lentilles.png', 10, 20), (2, 'Tian de légumes', 'Plat provençal coloré', 'Alterner tranches de légumes, cuire au four.', 'tian_legumes.png', 20, 40);
+
+-- Insertion de recettes desserts :
+INSERT INTO recipes (categorie_id, title_recipe, description, instructions, image_png, preparation_time, cooking_time) VALUES (3, 'Salade de fruits frais', 'Dessert léger et vitaminé', 'Couper fruits de saison, mélanger.', 'salade_fruits.png', 10, NULL), (3, 'Yaourt au miel', 'Dessert simple et doux', 'Ajouter miel au yaourt nature.', 'yaourt_miel.png', 5, NULL), (3, 'Compote de pommes maison', 'Dessert économique et sain', 'Cuire pommes avec un peu de sucre, mixer.', 'compote_pommes.png', 10, 20), (3, 'Mousse au chocolat sans gluten', 'Dessert gourmand', 'Faire fondre chocolat, mélanger avec œufs battus.', 'mousse_chocolat.png', 15, 2), (3, 'Crème dessert vanille', 'Dessert crémeux', 'Cuire lait avec vanille et sucre, épaissir.', 'creme_vanille.png', 10, 10), (3, 'Banane flambée', 'Dessert rapide et exotique', 'Faire revenir banane avec sucre et rhum.', 'banane_flambee.png', 5, 5), (3, 'Poires pochées au vin', 'Dessert raffiné', 'Cuire poires dans vin rouge épicé.', 'poires_vin.png', 15, 20), (3, 'Gâteau au yaourt sans gluten', 'Dessert familial', 'Mélanger ingrédients, cuire au four.', 'gateau_yaourt.png', 15, 30), (3, 'Cookies sans gluten', 'Dessert croustillant', 'Préparer pâte sans farine de blé, cuire.', 'cookies.png', 20, 12), (3, 'Clafoutis aux cerises sans gluten', 'Dessert fruité', 'Préparer appareil sans farine de blé, ajouter cerises, cuire.', 'clafoutis.png', 15, 35);
+
+-- Insertion de recettes boissons :
+INSERT INTO recipes (categorie_id, title_recipe, description, instructions, image_png, preparation_time, cooking_time) VALUES (4, 'Smoothie banane fraise', 'Boisson fraîche et vitaminée', 'Mixer banane et fraises avec lait végétal.', 'smoothie_banane_fraise.png', 5, NULL), (4, 'Jus d\'orange pressé', 'Boisson classique', 'Presser oranges, servir frais.', 'jus_orange.png', 5, NULL), (4, 'Thé glacé maison', 'Boisson rafraîchissante', 'Infuser thé, ajouter citron et sucre, refroidir.', 'the_glace.png', 10, NULL), (4, 'Limonade maison', 'Boisson pétillante', 'Mélanger jus de citron, eau gazeuse et sucre.', 'limonade.png', 5, NULL), (4, 'Infusion menthe', 'Boisson chaude apaisante', 'Infuser feuilles de menthe dans eau chaude.', 'infusion_menthe.png', 5, NULL), (4, 'Smoothie mangue coco', 'Boisson exotique', 'Mixer mangue avec lait de coco.', 'smoothie_mangue.png', 5, NULL), (4, 'Chocolat chaud', 'Boisson réconfortante', 'Faire chauffer lait et chocolat.', 'chocolat_chaud.png', 10, NULL), (4, 'Eau aromatisée citron concombre', 'Boisson detox', 'Infuser citron et concombre dans eau fraîche.', 'eau_aromatisee.png', 5, NULL), (4, 'Jus de pomme maison', 'Boisson simple', 'Presser pommes, servir frais.', 'jus_pomme.png', 5, NULL);
+
+-- Insertion de ingrédients  :
+INSERT INTO ingredients (name_ingredient) VALUES ('Tomates'), ('Mozzarella'), ('Basilic'), ('Œufs'), ('Mayonnaise sans gluten'), ('Moutarde sans gluten'), ('Carottes'), ('Citron'), ('Avocat'), ('Yaourt nature'), ('Concombre'), ('Menthe'), ('Courgettes'), ('Oignon'), ('Bouillon de légumes'), ('Crème fraîche'), ('Poivrons'), ('Betteraves'), ('Noix'), ('Pois chiches'), ('Tahini'), ('Ail'), ('Huile olive'), ('Vinaigre balsamique'), ('Riz'), ('Champignons'), ('Poulet'), ('Poisson'), ('Quinoa'), ('Pâtes de riz'), ('Sauce tomate'), ('Pommes de terre'), ('Curry'), ('Lait de coco'), ('Lentilles corail'), ('Pomme'), ('Banane'), ('Orange'), ('Miel'), ('Sucre'), ('Chocolat'), ('Lait'), ('Vanille'), ('Rhum'), ('Poires'), ('Vin rouge'), ('Épices'), ('Farine sans gluten'), ('Cerises'), ('Fraises'), ('Thé'), ('Eau gazeuse'), (‘Eau');
+
+-- Ajout de plusieurs utilisateurs qui aiment certaines recettes  :
+
+INSERT INTO favorites (user_id, recipe_id) VALUES
+(1, 2),  -- Marion aime la salade tomates-mozza
+(2, 12), -- Alice aime le riz sauté aux légumes
+(3, 25), -- Bob aime la mousse au chocolat
+(4, 32), -- Charlie aime le smoothie banane fraise
+(5, 19), -- Diana aime le curry de pois chiches
+(6, 30), -- Eric aime les cookies sans gluten
+(7, 40), -- Fiona aime le jus de pomme maison
+(8, 15), -- George aime le poisson grillé citronné
+(9, 28), -- Hannah aime les poires pochées au vin
+(10, 37); -- Julia aime le chocolat chaud
+
+-- Afficher toutes les recettes par catégories  :
+SELECT recipes.title_recipe, categories_recipes.name_categorie
+FROM recipes
+JOIN categories_recipes ON recipes.categorie_id = categories_recipes.id_categorie
+ORDER BY categories_recipes.name_categorie;
+
+-- Compter le nombre de recettes par catégorie  :
+SELECT categories_recipes.name_categorie, COUNT(*) AS nb_recettes
+FROM recipes
+JOIN categories_recipes ON recipes.categorie_id = categories_recipes.id_categorie
+GROUP BY categories_recipes.name_categorie;
+
+-- Chercher toutes les recettes contenant un mot recherché :
+SELECT recipes.title_recipe
+FROM recipes
+WHERE recipes.title_recipe LIKE ‘%mot_recherché%';
+
+
+-- Associer 5 ingrédients aléatoires à chaque recette
+INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity)
+SELECT 
+    recipes.id_recipe,
+    ingredients.id_ingredient,
+    CONCAT(FLOOR(1 + RAND() * 3), ' unités') AS quantity
+FROM recipes
+JOIN (
+    SELECT id_ingredient 
+    FROM ingredients 
+    ORDER BY RAND() 
+    LIMIT 5
+) AS ingredients;
+
