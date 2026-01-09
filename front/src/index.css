@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .glass-green-dark {
+    @apply bg-vertSauvage/50 backdrop-blur-md border border-white/20 shadow-lg rounded-lg;
+  }
+}
+
+.glass-card {
+  @apply glass-green-dark hover:shadow-md overflow-hidden max-w-sm font-texte;
+}
+
+.glass-carrousel {
+  @apply glass-green-dark overflow-hidden w-full;
+}
