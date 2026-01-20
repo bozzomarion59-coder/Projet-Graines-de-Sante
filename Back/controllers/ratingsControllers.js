@@ -26,12 +26,17 @@ export const getRatingsByRecipeId = async (req, res) => {
 
 // Calculer la moyenne des notes d'une recette
 export const getAVGRatingByRecipeId = async (req, res) => {
-    const { recipe_id } = req.params;
-    try {
-        const ratings = await ratingsModel.getAVGRatingByRecipeId(recipe_id);
-        res.status(200).json(ratings);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json("Erreur lors de la récupération de la moyenne des notes");
-    }
+  const { recipe_id } = req.params;
+
+  try {
+    const result = await ratingsModel.getAVGRatingByRecipeId(recipe_id);
+
+    res.status(200).json({
+      average: result.average_rating ?? 0
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Erreur lors de la récupération de la moyenne des notes");
+  }
 };

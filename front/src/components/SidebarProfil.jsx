@@ -18,15 +18,25 @@ export default function SidebarProfil() {
 
   return (
     <div className="relative">
+      {/* BOUTON PROFIL EN DESKTOP */}
       <button
         onClick={() => setOpen(!open)}
-        className="p-2 bg-vertSauvage text-white rounded"
+        className="hidden md:flex items-center justify-center w-10 h-10 bg-vertSauvage text-white rounded-full text-xl"
+      >
+        👤
+      </button>
+
+      {/* BOUTON HAMBURGER EN MOBILE */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="md:hidden p-2 bg-vertSauvage text-white rounded"
       >
         ☰
       </button>
 
+      {/* MENU */}
       {open && (
-        <ul className="absolute top-12 left-0 bg-white shadow-lg rounded p-4 w-48">
+        <ul className="absolute top-12 right-0 bg-white shadow-lg rounded p-4 w-48 z-50">
           <li>
             <button
               onClick={() => navigate("/mes-favoris")}

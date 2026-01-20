@@ -12,7 +12,8 @@ import PageAccueil from "./pages/PageAccueil";
 import CatalogueRecette from "./pages/CatalogueRecette";
 import PageDetailRecette from "./pages/PageDetailRecette";
 import PageFavorites from "./pages/PageFavorites";
-
+import ProtectedAdminRoute from "./components/ProtectedAdminRoute"; 
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/catalogue" element={<CatalogueRecette />} />
           <Route path="/recette/:id" element={<PageDetailRecette />} /> 
           <Route path="/mes-favoris" element={<PageFavorites />} />
+          <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
         </Routes>
       </main>
 
