@@ -6,10 +6,7 @@ export default function RatingDisplay({ recipeId }) {
   useEffect(() => {
     fetch(`http://localhost:5001/api/ratings/recipe/${recipeId}/average`)
       .then((res) => res.json())
-      .then((data) => {
-        // Sécurisation : si pas de moyenne → 0
-        setAverage(data?.average ?? 0);
-      })
+      .then((data) => setAverage(data?.average ?? 0))
       .catch(() => setAverage(0));
   }, [recipeId]);
 

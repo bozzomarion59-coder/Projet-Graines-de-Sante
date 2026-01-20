@@ -18,25 +18,31 @@ export default function FormConnexion() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const result = await loginUser(formData);
+  const result = await loginUser(formData);
 
-    if (result.token) {
-      setSuccess(true);
-      setMessage("Connexion réussie ! Redirection en cours…");
+  if (result.token) {
+    setSuccess(true);
+    setMessage("Connexion réussie ! Redirection en cours…");
 
-      localStorage.setItem("token", result.token);
+    // ENREGISTREMENT DU USER + TOKEN
+    localStorage.setItem("token", result.token);
+    localStorage.setItem("user", JSON.stringify(result.user));
 
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
-
+    // REDIRECTION SELON LE ROLE
+    if (result.user.role_user === "admin") {
+      navigate("/admin");
     } else {
-      setSuccess(false);
-      setMessage(result.message || "Erreur de connexion");
+      navigate("/user");
     }
-  };
+
+  } else {
+    setSuccess(false);
+    setMessage(result.message || "Erreur de connexion");
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-beige font-texte">
