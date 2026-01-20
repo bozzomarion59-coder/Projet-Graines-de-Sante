@@ -8,7 +8,7 @@ import ingredientsRoutes from './routes/ingredientsRoutes.js';
 import commentsRoutes from './routes/commentsRoutes.js';
 import favoritesRoutes from './routes/favoritesRoutes.js';
 import ratingsRoutes from './routes/ratingsRoutes.js';  
-
+import supportRoutes from './routes/supportRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -23,6 +23,7 @@ app.use('/api/ingredients', ingredientsRoutes);
 app.use('/api/comments', commentsRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/ratings', ratingsRoutes);
+app.use('/api/support', supportRoutes);
 
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`L'API est lancé sur  http://localhost:${process.env.SERVER_PORT}`)  ;

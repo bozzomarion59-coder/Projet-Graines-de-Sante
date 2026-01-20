@@ -4,10 +4,20 @@ export default function RatingsAdmin() {
   const [ratings, setRatings] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/ratings")
+    fetch("http://localhost:5001/api/ratings/AllRatings")
       .then((res) => res.json())
       .then((data) => setRatings(data));
   }, []);
+
+  const handleDeleteRating = (id) => {
+    if (!confirm("Supprimer cette note ?")) return;
+
+    fetch(`http://localhost:5001/api/ratings/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => setRatings(ratings.filter((r) => r.id_rating !== id)))
+      .catch(console.error);
+  };
 
   return (
     <div>
@@ -20,6 +30,7 @@ export default function RatingsAdmin() {
             <th className="p-2">Utilisateur</th>
             <th className="p-2">Recette</th>
             <th className="p-2">Note</th>
+            <th className="p-2">Actions</th>
           </tr>
         </thead>
 
@@ -30,6 +41,15 @@ export default function RatingsAdmin() {
               <td className="p-2">{r.user_id}</td>
               <td className="p-2">{r.recipe_id}</td>
               <td className="p-2">{r.value}</td>
+
+              <td className="p-2">
+                <button
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  onClick={() => handleDeleteRating(r.id_rating)}
+                >
+                  Supprimer
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
