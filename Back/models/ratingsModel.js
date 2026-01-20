@@ -18,8 +18,12 @@ export const getRatingsByRecipeId = async (recipe_id) => {
 
 // Calculer la moyenne des notes d'une recette
 export const getAVGRatingByRecipeId = async (recipe_id) => {
-    const getAVGRatingByRecipeId =
-    'SELECT AVG(ratings.value) as average_rating FROM ratings WHERE ratings.recipe_id = ?';
-    const [response] = await bdd.query(getAVGRatingByRecipeId, [recipe_id]);
-    return response[0];
+  const sql = `
+    SELECT AVG(value) AS average_rating
+    FROM ratings
+    WHERE recipe_id = ?
+  `;
+  const [rows] = await bdd.query(sql, [recipe_id]);
+  return rows[0];
 };
+

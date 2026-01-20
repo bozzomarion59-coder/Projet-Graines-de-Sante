@@ -3,7 +3,7 @@ import bdd from '../config/bdd.js';
 // Obtenir tous les commentaires
 export const getAllComments = async () => {
     const getAllComments =
-    `SELECT user_id, recipe_id, content, create_at_comment
+    `SELECT id_comment, user_id, recipe_id, content, create_at_comment
     FROM comments`;
 
     const [response] = await bdd.query(getAllComments);
@@ -13,9 +13,10 @@ export const getAllComments = async () => {
 // Obtenir tous les commentaires pour une recette par son id
 export const getCommentsByRecipeId = async (id) => {
     const getCommentsByRecipeId =
-    `SELECT user_id, recipe_id, content, create_at_comment
+    `SELECT id_comment, user_id, recipe_id, content, create_at_comment
         FROM comments
-        WHERE recipe_id = ?`
+        WHERE recipe_id = ?
+        ORDER BY create_at_comment DESC`
         ;
         
     const [response] = await bdd.query(getCommentsByRecipeId, [id]);

@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getIngredientsByRecipeId } from "../services/IngredientsService";
 import { addFavorite } from "../services/FavorisService";
+import CommentSection from "../components/CommentSection";
+import CommentsList from "../components/CommentsList";
+import RatingDisplay from "../components/RatingDisplay";
 
 export default function PageDetailRecette() {
   const { id } = useParams();
@@ -40,12 +43,20 @@ export default function PageDetailRecette() {
     getIngredientsByRecipeId(id).then((data) => setIngredients(data));
   }, [id]);
 
-  if (error) return <p className="text-center mt-20 text-red-600">Impossible de charger la recette.</p>;
-  if (!recette) return <p className="text-center mt-20">Chargement...</p>;
+  if (error)
+    return (
+      <p className="text-center mt-20 text-red-600">
+        Impossible de charger la recette.
+      </p>
+    );
+
+  if (!recette)
+    return <p className="text-center mt-20">Chargement...</p>;
 
   return (
     <div className="bg-beige min-h-screen font-texte text-grainCafe px-6 py-12">
 
+      {/* IMAGE */}
       <div className="max-w-4xl mx-auto mb-8">
         <img
           src={`/images/${recette.image_png}`}
@@ -54,12 +65,15 @@ export default function PageDetailRecette() {
         />
       </div>
 
+      {/* TITRE + INFOS */}
       <div className="max-w-4xl mx-auto text-center mb-10">
         <h1 className="text-3xl font-titre mb-4">{recette.title_recipe}</h1>
 
         <div className="flex justify-center gap-6 text-sm font-bouton">
           <span>⏱️ {recette.preparation_time} min</span>
-          {recette.cooking_time && <span>🔥 {recette.cooking_time} min</span>}
+          {recette.cooking_time && (
+            <span>🔥 {recette.cooking_time} min</span>
+          )}
           <span>🍽️ {recette.categorie?.toUpperCase()}</span>
         </div>
 
@@ -75,30 +89,49 @@ export default function PageDetailRecette() {
         )}
       </div>
 
-      <section className="max-w-3xl mx-auto mb-10">
-        <h2 className="text-xl font-titre mb-2">DESCRIPTION</h2>
-        <p className="text-oliveGrise">{recette.description}</p>
-      </section>
+      {/* --- GRILLE 2 COLONNES --- */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
-      <section className="max-w-3xl mx-auto mb-10">
-        <h2 className="text-xl font-titre mb-2">INGRÉDIENTS</h2>
-        <ul className="list-disc list-inside text-oliveGrise leading-relaxed">
-          {ingredients.map((item) => (
-            <li key={item.id_ingredient}>
-              {item.quantity} — {item.name_ingredient}
-            </li>
-          ))}
-        </ul>
-      </section>
+        {/* COLONNE GAUCHE */}
+        <div className="md:col-span-2">
 
-      <section className="max-w-3xl mx-auto mb-10">
-        <h2 className="text-xl font-titre mb-2">INSTRUCTIONS</h2>
-        <ol className="list-decimal list-inside text-oliveGrise leading-relaxed">
-          {recette.instructions?.split("\n").map((step, index) => (
-            <li key={index}>{step}</li>
-          ))}
-        </ol>
-      </section>
+          <section className="mb-10">
+            <h2 className="text-xl font-titre mb-2">DESCRIPTION</h2>
+            <p className="text-oliveGrise">{recette.description}</p>
+          </section>
+
+          <section className="mb-10">
+            <h2 className="text-xl font-titre mb-2">INGRÉDIENTS</h2>
+            <ul className="list-disc list-inside text-oliveGrise leading-relaxed">
+              {ingredients.map((item) => (
+                <li key={item.id_ingredient}>
+                  {item.quantity} — {item.name_ingredient}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="mb-10">
+            <h2 className="text-xl font-titre mb-2">INSTRUCTIONS</h2>
+            <ol className="list-decimal list-inside text-oliveGrise leading-relaxed">
+              {recette.instructions
+                ?.split("\n")
+                .map((step, index) => (
+                  <li key={index}>{step}</li>
+                ))}
+            </ol>
+          </section>
+
+        </div>
+
+        {/* COLONNE DROITE */}
+        <aside className="md:col-span-1 space-y-6">
+          <RatingDisplay recipeId={id} />
+          <CommentSection recipeId={id} />
+          <CommentsList recipeId={id} />
+        </aside>
+
+      </div>
     </div>
   );
 }
