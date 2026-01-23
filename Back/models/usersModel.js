@@ -12,8 +12,8 @@ export const getUserById = async (id) => {
     const getUserById = 
     "SELECT id_user, email_user, password_hash, pseudo_user, role_user, create_at_user FROM users WHERE id_user = ?";
 
-    const [response] = await bdd.query(getUserById, [id]);
-    return response;
+    const [rows] = await bdd.query(getUserById, [id]);
+    return rows[0];
 };
 
 export const createUser = async (email, passwordHash, pseudo, role = "user") => {
