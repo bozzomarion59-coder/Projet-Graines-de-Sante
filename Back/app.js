@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import usersRoutes from './routes/usersRoutes.js';
 import recipesRoutes from './routes/recipesRoutes.js';
+import commentsRoutes from './routes/commentsRoutes.js';
 
 
 dotenv.config();
@@ -20,5 +21,6 @@ app.use(express.json());
 
 app.use('/api/users', usersRoutes);
 app.use('/api/recipes', recipesRoutes);
+app.use('/api/comments', commentsRoutes);
 
 export default app;
