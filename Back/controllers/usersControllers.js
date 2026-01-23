@@ -14,14 +14,21 @@ export const getAllUsers = async (req, res) => {
 
 // Obtenir un utilisateur par ID
 export const getUserById = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const userById = await usersModel.getUserById(id);
-        res.status(200).json(userById);
-    } catch (error) {
-        res.status(500).json("une erreur est survenue", error);
+  try {
+    const id = req.params.id;
+    const user = await usersModel.getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
+
+    return res.status(200).json(user); 
+  } catch (error) {
+    console.error("Erreur getUserById :", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
 };
+
 
 // Enregistrer un nouvel utilisateur
 export const registerUser = async (req, res) => {
