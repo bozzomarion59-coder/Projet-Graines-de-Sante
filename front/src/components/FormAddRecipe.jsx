@@ -68,6 +68,7 @@ export default function FormAddRecipe() {
         cooking_time: cookTime || 0,
       }),
     })
+
       .then((res) => res.json())
       .then(() => {
         setMessage("Recette ajoutée !");
