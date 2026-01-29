@@ -10,6 +10,10 @@ export default function NavBar() {
   const token = localStorage.getItem("token");
   const isLoggedIn = !!token;
 
+  // Récupère le rôle
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdmin = user?.role_user === "admin";
+
   return (
     <nav className="w-full border-b border-vertSauvage bg-beige px-4 py-3 font-texte text-grainCafe">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -34,13 +38,21 @@ export default function NavBar() {
           <li><Link to="/catalogue" className="hover:text-mandarine transition">Catalogue</Link></li>
           <li><Link to="/support" className="hover:text-mandarine transition">Contact</Link></li>
 
-          {/* SI CONNECTÉ → SidebarProfil */}
+          {/* ADMIN : Tableau de bord */}
+          {isAdmin && (
+            <li>
+              <Link to="/admin" className="hover:text-mandarine transition">
+                Tableau de bord
+              </Link>
+            </li>
+          )}
+
+          {/* SI CONNECTÉ : SidebarProfil */}
           {isLoggedIn ? (
             <li>
               <SidebarProfil />
             </li>
           ) : (
-            /* SINON → Bouton Connexion */
             <li>
               <Link
                 to="/connexion"
@@ -59,6 +71,15 @@ export default function NavBar() {
           <li><Link to="/" className="block hover:text-mandarine transition">Accueil</Link></li>
           <li><Link to="/catalogue" className="block hover:text-mandarine transition">Catalogue</Link></li>
           <li><Link to="/support" className="block hover:text-mandarine transition">Contact</Link></li>
+
+          {/* ADMIN MOBILE */}
+          {isAdmin && (
+            <li>
+              <Link to="/admin" className="block hover:text-mandarine transition">
+                Tableau de bord
+              </Link>
+            </li>
+          )}
 
           {/* MOBILE : Connexion ou SidebarProfil */}
           {isLoggedIn ? (

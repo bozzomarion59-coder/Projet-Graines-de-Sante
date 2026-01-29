@@ -37,12 +37,19 @@ export default function FormAddRecipe() {
       return;
     }
 
-    // On fusionne les ingrédients dans la description
+    // Liste d’ingrédients en texte
+    let listeIngredients = "";
+
+    for (let i = 0; i < ingredients.length; i++) {
+      listeIngredients += "- " + ingredients[i] + "\n";
+    }
+
+    // On assemble tout dans une seule description
     const fullDescription =
       description +
       "\n\nIngrédients :\n" +
-      ingredients.map((i) => "- " + i).join("\n");
-    
+      listeIngredients;
+
     const token = localStorage.getItem("token");
 
     fetch("http://localhost:5001/api/recipes/createRecipe", {
@@ -51,7 +58,6 @@ export default function FormAddRecipe() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
-
       body: JSON.stringify({
         categorie_id: category,
         title_recipe: title,
