@@ -43,9 +43,14 @@ export default function FormAddRecipe() {
       "\n\nIngrédients :\n" +
       ingredients.map((i) => "- " + i).join("\n");
 
+    const token = localStorage.getItem("token");
+
     fetch("http://localhost:5001/api/recipes/createRecipe", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
       body: JSON.stringify({
         categorie_id: category,
         title_recipe: title,
@@ -56,6 +61,7 @@ export default function FormAddRecipe() {
         cooking_time: cookTime || 0,
       }),
     })
+
       .then((res) => res.json())
       .then(() => {
         setMessage("Recette ajoutée !");
