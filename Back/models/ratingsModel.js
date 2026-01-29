@@ -1,5 +1,11 @@
 import bdd from '../config/bdd.js';
 
+// Récupérer toutes les notes
+export const getAllRatings = () => {
+  return bdd.query("SELECT * FROM ratings");
+};
+
+
 // Ajouter une note
 export const AddRatings = async (user_id, recipe_id, value) => {
     const AddRatings =

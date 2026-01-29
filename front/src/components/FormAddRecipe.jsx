@@ -42,7 +42,7 @@ export default function FormAddRecipe() {
       description +
       "\n\nIngrédients :\n" +
       ingredients.map((i) => "- " + i).join("\n");
-
+    
     const token = localStorage.getItem("token");
 
     fetch("http://localhost:5001/api/recipes/createRecipe", {
@@ -51,6 +51,7 @@ export default function FormAddRecipe() {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
+
       body: JSON.stringify({
         categorie_id: category,
         title_recipe: title,

@@ -4,6 +4,9 @@ import * as ratingsControllers from '../controllers/ratingsControllers.js';
 
 const router = express.Router();
 
+// Route pour récupérer toutes les notes
+router.get('/AllRatings', ratingsControllers.getAllRatings);
+
 // Route pour ajouter une note
 router.post('/', ratingsControllers.AddRatings);
 

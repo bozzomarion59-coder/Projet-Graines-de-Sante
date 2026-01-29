@@ -1,5 +1,16 @@
 import * as ratingsModel from '../models/ratingsModel.js';
 
+// Récupérer toutes les notes
+export const getAllRatings = async (req, res) => {
+  try {
+    const ratings = await ratingsModel.getAllRatings();
+    res.status(200).json(ratings);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+
 // Ajouter une note
 export const AddRatings = async (req, res) => {
     const { user_id, recipe_id, value } = req.body;
