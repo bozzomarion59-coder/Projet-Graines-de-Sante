@@ -10,8 +10,17 @@ export const sendMessage = (nom, email, sujet, contenu) => {
 
 export const getAllMessages = () => {
   const sql = `
-    SELECT * FROM support_messages
+    SELECT 
+      id_message,
+      nom,
+      email,
+      sujet,
+      contenu,
+      statut,
+      date_envoi
+    FROM support_messages
     ORDER BY date_envoi DESC
   `;
   return db.query(sql);
 };
+

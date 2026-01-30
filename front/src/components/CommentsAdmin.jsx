@@ -46,12 +46,6 @@ export default function CommentsAdmin() {
               <td className="p-2">{c.recipe_id}</td>
               <td className="p-2">{c.content}</td>
               <td className="p-2 flex gap-2">
-                <button
-                  className="bg-mandarine text-white px-2 py-1 rounded"
-                  onClick={() => handleEditComment(c.id_comment)}
-                >
-                  Modifier
-                </button>
 
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded"

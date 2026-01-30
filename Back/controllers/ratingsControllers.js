@@ -3,8 +3,8 @@ import * as ratingsModel from '../models/ratingsModel.js';
 // Récupérer toutes les notes
 export const getAllRatings = async (req, res) => {
   try {
-    const ratings = await ratingsModel.getAllRatings();
-    res.status(200).json(ratings);
+    const [rows] = await ratingsModel.getAllRatings();
+    res.status(200).json(rows);
   } catch (error) {
     res.status(500).json({ message: "Erreur serveur" });
   }
@@ -51,3 +51,15 @@ export const getAVGRatingByRecipeId = async (req, res) => {
     res.status(500).json("Erreur lors de la récupération de la moyenne des notes");
   }
 };
+
+export const deleteRating = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await bdd.query("DELETE FROM ratings WHERE id_rating = ?", [id]);
+    res.status(200).json({ message: "Note supprimée" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+

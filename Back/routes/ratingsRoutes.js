@@ -16,4 +16,7 @@ router.get('/recipe/:recipe_id', ratingsControllers.getRatingsByRecipeId);
 // Route pour récupérer la moyenne des notes d'une recette
 router.get('/recipe/:recipe_id/average', ratingsControllers.getAVGRatingByRecipeId);
 
+// Route pour supprimer une note
+router.delete('/:id', ratingsControllers.deleteRating);
+
 export default router;

@@ -11,10 +11,12 @@ export default function SidebarProfil() {
   if (!isLoggedIn) return null;
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setOpen(false);
-    navigate("/connexion");
-  };
+  localStorage.removeItem("token");
+  localStorage.removeItem("user"); 
+  setOpen(false);
+  navigate("/connexion");
+};
+
 
   return (
     <div className="relative">

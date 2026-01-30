@@ -12,7 +12,7 @@ export default function CommentSection({ recipeId }) {
   let user_id = null;
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    user_id = payload.id_user; // ⚠ doit correspondre à ce que tu mets dans ton token côté back
+    user_id = payload.id_user; 
   } catch (error) {
     console.error("Erreur lors de la lecture du token :", error);
   }

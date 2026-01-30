@@ -28,7 +28,7 @@ export default function FormulaireInscription() {
       setSuccess(true);
       setMessage("Votre compte a été créé avec succès ! Redirection en cours…");
 
-      // ⏳ Redirection après 2 secondes
+      // Redirection après 2 secondes
       setTimeout(() => {
         navigate("/login");
       }, 2000);
