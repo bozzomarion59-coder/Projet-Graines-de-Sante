@@ -44,12 +44,6 @@ export default function RecipesAdmin() {
               <td className="p-2">{r.title_recipe}</td>
               <td className="p-2">{r.categorie}</td>
               <td className="p-2 flex gap-2">
-                <button
-                  className="bg-mandarine text-white px-2 py-1 rounded"
-                  onClick={() => handleEditRecipe(r.id_recipe)}
-                >
-                  Modifier
-                </button>
 
                 <button
                   className="bg-red-500 text-white px-2 py-1 rounded"

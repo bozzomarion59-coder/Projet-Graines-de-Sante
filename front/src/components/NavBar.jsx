@@ -11,7 +11,7 @@ export default function NavBar() {
   const isLoggedIn = !!token;
 
   // Récupère le rôle
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || null;
   const isAdmin = user?.role_user === "admin";
 
   return (

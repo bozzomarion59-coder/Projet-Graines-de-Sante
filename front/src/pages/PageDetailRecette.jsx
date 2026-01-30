@@ -89,7 +89,7 @@ export default function PageDetailRecette() {
         )}
       </div>
 
-      {/* --- GRILLE 2 COLONNES --- */}
+      {/* GRILLE 2 COLONNES */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
         {/* COLONNE GAUCHE */}

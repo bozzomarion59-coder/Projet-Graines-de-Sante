@@ -37,7 +37,7 @@ export default function RatingsAdmin() {
         <tbody>
           {ratings.map((r) => (
             <tr key={r.id_rating} className="border-b">
-              <td className="p-2">{r.id_rating}</td>
+              <td className="p-2 ">{r.user_id}-{r.recipe_id}</td>
               <td className="p-2">{r.user_id}</td>
               <td className="p-2">{r.recipe_id}</td>
               <td className="p-2">{r.value}</td>

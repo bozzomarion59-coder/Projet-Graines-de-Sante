@@ -33,3 +33,8 @@ export const getAVGRatingByRecipeId = async (recipe_id) => {
   return rows[0];
 };
 
+// Supprimer une note
+export const deleteRating = async (id) => {
+  const sql = "DELETE FROM ratings WHERE id_rating = ?";
+  return bdd.query(sql, [id]);
+};
