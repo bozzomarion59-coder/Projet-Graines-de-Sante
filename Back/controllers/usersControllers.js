@@ -61,40 +61,39 @@ export const registerUser = async (req, res) => {
 
 // Mettre à jour un utilisateur existant
 export const updateUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const {
-            email_user,
-            password_hash,
-            pseudo_user,
-            role_user
-        } = req.body;
+  try {
+    const { id } = req.params;
+    const { email_user, password_hash, pseudo_user, role_user } = req.body;
 
-        if (!email_user || !pseudo_user || !role_user) {
-            return res.status(400).json({ message: "Champs requis manquants" });
-        }
-
-        let hashedPassword = null;
-
-        if (password_hash && password_hash.trim() !== "") {
-            hashedPassword = await bcrypt.hash(password_hash, 10);
-        }
-
-        await usersModel.updateUser(
-            id,
-            email_user,
-            hashedPassword,
-            pseudo_user,
-            role_user,
-        );
-
-        res.json({ message: "Utilisateur mis à jour avec succès" });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erreur serveur" });
+    if (!email_user || !pseudo_user || !role_user) {
+      return res.status(400).json({ message: "Champs requis manquants" });
     }
+
+    let hashedPassword = password_hash;
+
+    if (password_hash && password_hash.trim() !== "") {
+      hashedPassword = await bcrypt.hash(password_hash, 10);
+    } else {
+      const oldUser = await usersModel.getUserById(id);
+      hashedPassword = oldUser.password_hash;
+    }
+
+    await usersModel.updateUser(
+      id,
+      email_user,
+      hashedPassword,
+      pseudo_user,
+      role_user
+    );
+
+    res.json({ message: "Utilisateur mis à jour avec succès" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
 };
+
 
 // Supprimer un utilisateur
 export const deleteUser = async (req, res) => {
