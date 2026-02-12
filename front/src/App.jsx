@@ -15,6 +15,7 @@ import PageFavorites from "./pages/PageFavorites";
 import ProtectedRoute from "./components/ProtectedRoute"; 
 import AdminDashboard from "./pages/AdminDashboard"; 
 import UserPage from "./pages/UserPage";
+import EditUser from "./pages/EditUser";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/mes-favoris" element={<PageFavorites />} />
            <Route path="/admin" element={ <ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>} />
            <Route path="/user" element={ <ProtectedRoute role="user"><UserPage /></ProtectedRoute>} />
+           <Route path="/admin/edit-user/:id" element={<EditUser />} />
         </Routes>
       </main>
 
