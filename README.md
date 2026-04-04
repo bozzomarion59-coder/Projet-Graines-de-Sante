@@ -1,23 +1,23 @@
 # Graines de Sante
 
-Application web de recettes 100 % sans gluten avec systeme de favoris, commentaires, notes et espace administrateur.
+Application web de recettes 100 % sans gluten avec système de favoris, commentaires, notes et espace administrateur.
 
-Projet realise dans le cadre de la formation **Developpeur Web et Web Mobile (DWWM)** - ForEach Academy 2025-2026.
+Projet realisé dans le cadre de la formation **Développeur Web et Web Mobile (DWWM)** - ForEach Academy 2025-2026.
 
 ## Stack technique
 
 | Couche | Technologies |
 |--------|-------------|
-| **Frontend** | React 19, React Router 7, Tailwind CSS 3, Vite |
+| **Frontend** | React 10, React Router 7, Tailwind CSS 3, Vite |
 | **Backend** | Node.js, Express 5, JWT, Bcrypt |
-| **Base de donnees** | MySQL |
+| **Base de données** | MySQL |
 | **Tests** | Vitest, Supertest |
 
-## Fonctionnalites
+## Fonctionnalités
 
 ### Utilisateur
-- Consultation du catalogue de recettes avec filtrage par categorie
-- Page detail avec ingredients, temps de preparation et cuisson
+- Consultation du catalogue de recettes avec filtrage par catégorie
+- Page détail avec ingrédients, temps de préparation et cuisson
 - Inscription / connexion avec authentification JWT
 - Ajout de recettes aux favoris
 - Commentaires et notation des recettes
@@ -25,13 +25,13 @@ Projet realise dans le cadre de la formation **Developpeur Web et Web Mobile (DW
 - Gestion du profil utilisateur
 
 ### Administrateur
-- Tableau de bord avec gestion complete :
+- Tableau de bord avec gestion complète :
   - Utilisateurs (consultation, modification, suppression)
   - Recettes (consultation, ajout, suppression)
-  - Commentaires (moderation)
-  - Notes (moderation)
+  - Commentaires (modération)
+  - Notes (modération)
   - Messages de support
-- Ajout de nouvelles recettes via formulaire dedie
+- Ajout de nouvelles recettes via formulaire dédié
 
 ## Architecture
 
@@ -40,32 +40,32 @@ projet final/
 ├── Back/                       # API REST Node.js / Express
 │   ├── config/                 # Configuration BDD (MySQL2)
 │   ├── controllers/            # Logique metier (8 controllers)
-│   ├── models/                 # Acces donnees (8 models)
+│   ├── models/                 # Accès données (8 models)
 │   ├── routes/                 # Endpoints API (8 fichiers de routes)
 │   ├── middlewares/            # Middleware JWT (checkToken)
 │   ├── tests/                  # Tests Vitest + Supertest
-│   ├── gluten_free_recipes.sql # Schema de la base de donnees
+│   ├── gluten_free_recipes.sql # Schéma de la base de données
 │   ├── app.js                  # Configuration Express
-│   └── index.js                # Point d'entree serveur
+│   └── index.js                # Point d'entrée serveur
 │
 └── front/                      # SPA React
     └── src/
-        ├── components/         # 20 composants reutilisables
+        ├── components/         # 20 composants réutilisables
         ├── pages/              # 14 pages
         ├── services/           # 5 services API (Axios)
         ├── assets/             # Images et ressources
         └── App.jsx             # Routeur principal
 ```
 
-## Schema de la base de donnees
+## Schema de la base de données
 
 | Table | Description |
 |-------|-------------|
 | `users` | Utilisateurs (email, pseudo, mot de passe hash, role) |
 | `recipes` | Recettes (titre, description, instructions, image, temps) |
 | `categories_recipes` | Categories de recettes |
-| `ingredients` | Liste des ingredients |
-| `recipe_ingredients` | Liaison recettes-ingredients (quantite) |
+| `ingredients` | Liste des ingrédients |
+| `recipe_ingredients` | Liaison recettes-ingredients (quantité) |
 | `comments` | Commentaires des utilisateurs sur les recettes |
 | `ratings` | Notes des utilisateurs sur les recettes |
 | `favorites` | Recettes favorites par utilisateur |
@@ -86,7 +86,7 @@ projet final/
 
 ## Installation
 
-### Prerequis
+### Prérequis
 
 - Node.js (v18+)
 - MySQL
@@ -98,14 +98,14 @@ git clone https://github.com/bozzomarion59-coder/Projet-Graines-de-Sante.git
 cd Projet-Graines-de-Sante
 ```
 
-### 2. Installer les dependances
+### 2. Installer les dépendances
 
 ```bash
 cd Back && npm install
 cd ../front && npm install
 ```
 
-### 3. Configurer la base de donnees
+### 3. Configurer la base de données
 
 Importer le schema SQL dans MySQL :
 
@@ -144,16 +144,15 @@ npm run dev
 
 L'application est accessible sur `http://localhost:5173`.
 
-## Securite
+## Sécurité
 
-- Mots de passe hashes avec **Bcrypt**
+- Mots de passe hashés avec **Bcrypt**
 - Authentification par **JSON Web Token** (JWT)
-- Routes protegees par middleware de verification de token
-- Controle d'acces base sur les roles (utilisateur / administrateur)
-- Variables sensibles dans `.env` (non versionne)
-- **CORS** configure pour le frontend
+- Routes protégées par middleware de vérification de token
+- Contrôle d'accès basé sur les rôles (utilisateur / administrateur)
+- Variables sensibles dans `.env`
 
-## Ameliorations prevues
+## Ameliorations prévues
 
 - Blog conseils et rencontres autour du sans gluten
 - Carte interactive des adresses sans gluten

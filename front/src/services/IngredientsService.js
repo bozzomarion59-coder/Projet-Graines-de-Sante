@@ -1,14 +1,12 @@
+import axios from "axios";
+
 export async function getIngredientsByRecipeId(id) {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `http://localhost:5001/api/ingredients/Recipe/${id}`
     );
 
-    if (!response.ok) {
-      throw new Error("Erreur lors de la récupération des ingrédients");
-    }
-
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error("Erreur getIngredientsByRecipeId :", error);
     return [];

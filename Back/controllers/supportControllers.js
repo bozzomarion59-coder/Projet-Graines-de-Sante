@@ -12,6 +12,18 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const updateStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    await supportModel.updateStatus(id, status);
+    res.status(200).json({ message: "Statut mis à jour" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
 export const getAllMessages = async (req, res) => {
   try {
     const [rows] = await supportModel.getAllMessages();

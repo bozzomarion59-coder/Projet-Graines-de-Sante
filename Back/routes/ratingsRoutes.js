@@ -1,5 +1,6 @@
 import express from 'express';
 import * as ratingsControllers from '../controllers/ratingsControllers.js';
+import checkToken from '../middlewares/checkToken.js';
 
 
 const router = express.Router();
@@ -17,6 +18,6 @@ router.get('/recipe/:recipe_id', ratingsControllers.getRatingsByRecipeId);
 router.get('/recipe/:recipe_id/average', ratingsControllers.getAVGRatingByRecipeId);
 
 // Route pour supprimer une note
-router.delete('/:id', ratingsControllers.deleteRating);
+router.delete('/:id', checkToken, ratingsControllers.deleteRating);
 
 export default router;

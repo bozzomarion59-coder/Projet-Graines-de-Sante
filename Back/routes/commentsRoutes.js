@@ -1,5 +1,6 @@
 import * as commentsController from '../controllers/commentsController.js';
 import express from 'express';  
+import checkToken from '../middlewares/checkToken.js';
 
 const router = express.Router();
 
@@ -10,9 +11,9 @@ router.get('/AllComments', commentsController.getAllComments);
 router.get('/CommentsByRecipe/:id', commentsController.getCommentsByRecipeId);
 
 // Route pour supprimer un commentaire par son id
-router.delete('/DeleteComment/:id', commentsController.deleteCommentById);  
+router.delete('/DeleteComment/:id', checkToken, commentsController.deleteCommentById);  
 
 // Route pour créer un nouveau commentaire
-router.post('/CreateComment', commentsController.createComment);
+router.post('/CreateComment', checkToken, commentsController.createComment);
 
 export default router;
