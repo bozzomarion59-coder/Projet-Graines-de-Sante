@@ -56,7 +56,7 @@ export const deleteRating = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await bdd.query("DELETE FROM ratings WHERE id_rating = ?", [id]);
+    await ratingsModel.deleteRating(id);
     res.status(200).json({ message: "Note supprimée" });
   } catch (error) {
     res.status(500).json({ message: "Erreur serveur" });

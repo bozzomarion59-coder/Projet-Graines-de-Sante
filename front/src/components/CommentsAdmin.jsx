@@ -12,10 +12,11 @@ export default function CommentsAdmin() {
   const handleDeleteComment = (id) => {
     if (!confirm("Supprimer ce commentaire ?")) return;
 
-    fetch(`http://localhost:5001/api/recipes/${id}`, {
+    fetch(`http://localhost:5001/api/comments/DeleteComment/${id}`, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
-      .then(() => setRecipes(recipes.filter((r) => r.id_recipe !== id)))
+      .then(() => setComments(comments.filter((c) => c.id_comment !== id)))
       .catch(console.error);
   };
 

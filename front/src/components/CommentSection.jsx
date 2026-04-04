@@ -28,7 +28,10 @@ export default function CommentSection({ recipeId }) {
     // 1) Envoi du commentaire
     const commentResponse = await fetch("http://localhost:5001/api/comments/CreateComment", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({
         user_id,
         recipe_id: recipeId,

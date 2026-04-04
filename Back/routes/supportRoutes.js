@@ -9,4 +9,7 @@ router.post("/send", supportControllers.sendMessage);
 // Routes pour obtenir tous les messages
 router.get("/AllMessages", supportControllers.getAllMessages);
 
+// Route pour mettre à jour le statut d'un message
+router.put("/status/:id", supportControllers.updateStatus);
+
 export default router;

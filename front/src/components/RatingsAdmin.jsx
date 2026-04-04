@@ -14,6 +14,7 @@ export default function RatingsAdmin() {
 
     fetch(`http://localhost:5001/api/ratings/${id}`, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then(() => setRatings(ratings.filter((r) => r.id_rating !== id)))
       .catch(console.error);

@@ -1,37 +1,30 @@
+import axios from "axios";
+
 const API_URL = "http://localhost:5001/api/users";
 
 export async function loginUser(data) {
-  const response = await fetch(`${API_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return response.json();
+  try {
+    const response = await axios.post(`${API_URL}/login`, data);
+    return response.data;
+  } catch (error) {
+    return error.response?.data || { message: "Erreur lors de la connexion" };
+  }
 }
 
 export async function registerUser(data) {
-  const response = await fetch(`${API_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return response.json();
+  try {
+    const response = await axios.post(`${API_URL}/register`, data);
+    return response.data;
+  } catch (error) {
+    return error.response?.data || { message: "Erreur lors de l'inscription" };
+  }
 }
 
 export async function resetPassword(data) {
-  const response = await fetch("http://localhost:5001/api/users/reset-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return response.json();
+  try {
+    const response = await axios.post(`${API_URL}/reset-password`, data);
+    return response.data;
+  } catch (error) {
+    return error.response?.data || { message: "Erreur lors de la réinitialisation" };
+  }
 }

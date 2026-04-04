@@ -8,6 +8,11 @@ export const sendMessage = (nom, email, sujet, contenu) => {
   return db.query(sql, [nom, email, sujet, contenu]);
 };
 
+export const updateStatus = (id, status) => {
+  const sql = "UPDATE support_messages SET statut = ? WHERE id_message = ?";
+  return db.query(sql, [status, id]);
+};
+
 export const getAllMessages = () => {
   const sql = `
     SELECT 
